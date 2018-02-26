@@ -50,9 +50,9 @@ def webhook():
 
 
 def processRequest(req):
-    if req.get("result").get("action") != "yahooWeatherForecast":
+    if req.get("result").get("action") != "searchPatient":
         return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
+    baseurl = "https://ttnmwqa3:10443/CCATSNJSPWebService/jaxrs/CCATSNJSPService/NJSPPatientSearchBO"
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
@@ -67,10 +67,16 @@ def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
     city = parameters.get("geo-city")
+	lastName = parameters.get("lastName")
+	firstName = parameters.get("firstName")
+	dateOfBirth = parameters.get("dateOfBirth")
+	ssn = parameters.get("ssn")
+	
+	
     if city is None:
         return None
 
-    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')"
+    return "Success"
 
 
 def makeWebhookResult(data):
@@ -98,9 +104,9 @@ def makeWebhookResult(data):
 
     # print(json.dumps(item, indent=4))
 
-    speech = "Today the weather in " + location.get('city') + ": " + condition.get('text') + \
-             ", And the temperature is " + condition.get('temp') + " " + units.get('temperature')
+    #speech = "Today the weather in " + location.get('city') + ": " + condition.get('text') + \", And the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
+	speech = "Speech Output...................."
     print("Response:")
     print(speech)
 
@@ -109,7 +115,7 @@ def makeWebhookResult(data):
         "displayText": speech,
         # "data": data,
         # "contextOut": [],
-        "source": "apiai-weather-webhook-sample"
+        "source": "df-weather-api"
     }
 
 
