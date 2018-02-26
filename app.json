@@ -1,6 +1,6 @@
 {
-  "name": "API.AI NJSP webhook demonstration",
-  "description": "API.AI webhook demonstration",
+  "name": "NJSP webhook demonstration",
+  "description": "NJSP webhook demonstration",
   "repository": "https://github.com/stadigadapa/df-weather-api",
   "logo": "http://xvir.github.io/img/apiai.png",
   "keywords": ["api.ai", "natural language"]
