@@ -50,6 +50,7 @@ def webhook():
 
 
 def processRequest(req):
+	
     if req.get("result").get("action") != "searchPatient":
         return {}
     baseurl = "http://10.36.32.162:9080/CCATSNJSPWebService/jaxrs/CCATSNJSPService/NJSPPatientSearchBO"
@@ -67,10 +68,10 @@ def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
     city = parameters.get("geo-city")
-	lastName = parameters.get("lastName")
-	firstName = parameters.get("firstName")
-	dateOfBirth = parameters.get("dateOfBirth")
-	ssn = parameters.get("ssn")
+    lastName = parameters.get("lastName")
+    firstName = parameters.get("firstName")
+    dateOfBirth = parameters.get("dateOfBirth")
+    ssn = parameters.get("ssn")
 	
 	
     if city is None:
