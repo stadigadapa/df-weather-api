@@ -52,7 +52,7 @@ def webhook():
 def processRequest(req):
     if req.get("result").get("action") != "searchPatient":
         return {}
-    baseurl = "https://ttnmwqa3:10443/CCATSNJSPWebService/jaxrs/CCATSNJSPService/NJSPPatientSearchBO"
+    baseurl = "http://10.36.32.162:9080/CCATSNJSPWebService/jaxrs/CCATSNJSPService/NJSPPatientSearchBO"
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
