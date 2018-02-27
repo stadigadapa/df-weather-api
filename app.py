@@ -53,7 +53,7 @@ def processRequest(req):
     print("Inside processRequest Request:"+req.get("result").get("action"))
     if req.get("result").get("action") != "searchPatient":
         return {}
-    baseurl = "http://10.36.32.162:9080/CCATSNJSPWebService/jaxrs/CCATSNJSPService/NJSPPatientSearchBO"
+    baseurl = "http://10.36.32.162:9080/CCATSNJSPWebService/jaxrs/NJSPTestClient"
 	
     print("baseurl:"+baseurl)
     yql_query = makeYqlQuery(req)
