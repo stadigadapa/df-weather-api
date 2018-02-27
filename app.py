@@ -50,10 +50,12 @@ def webhook():
 
 
 def processRequest(req):
-	
+    print("Request:"+req.get("result").get("action"))
     if req.get("result").get("action") != "searchPatient":
         return {}
     baseurl = "http://10.36.32.162:9080/CCATSNJSPWebService/jaxrs/CCATSNJSPService/NJSPPatientSearchBO"
+	
+    print("baseurl:"+baseurl)
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
@@ -74,13 +76,14 @@ def makeYqlQuery(req):
     ssn = parameters.get("ssn")
 	
 	
-    if city is None:
+    if lastName is None:
         return None
 
     return "Success"
 
 
 def makeWebhookResult(data):
+    print("data:"+data)
     query = data.get('query')
     if query is None:
         return {}
@@ -107,7 +110,7 @@ def makeWebhookResult(data):
 
     #speech = "Today the weather in " + location.get('city') + ": " + condition.get('text') + \", And the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
-	speech = "Speech Output...................."
+    speech = "Speech Output...................."
     print("Response:")
     print(speech)
 
