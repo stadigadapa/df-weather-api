@@ -75,11 +75,12 @@ def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
     city = parameters.get("geo-city")
+    njspUniqIdentifier = parameters.get("njspUniqIdentifier")
     lastName = parameters.get("lastName")
     firstName = parameters.get("firstName")
     dateOfBirth = parameters.get("dateOfBirth")
     ssn = parameters.get("ssn")
-	
+    	
 	
     if lastName is None:
         return None
