@@ -53,17 +53,17 @@ def processRequest(req):
     print("Inside processRequest Request:"+req.get("result").get("action"))
     if req.get("result").get("action") != "searchPatient":
         return {}
-    baseurl = "http://10.36.32.162:9080/CCATSNJSPWebService/jaxrs/NJSPTestClient"
+    baseurl = "https://ttnmwdev3:10443/CCATSNJSPWebService/jaxrs/CCATSNJSPService/NJSPPatientSearchBO"
 	
     print("baseurl:"+baseurl)
     yql_query = makeYqlQuery(req)
     
     if yql_query is None:
         return {}
-    yql_url = baseurl
+
     # yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-    print("yql_url:"+yql_url)
-    result = urllib.urlopen(yql_url).read()
+    
+    result = urlopen(baseurl).read()
     print("result:"+result)
     data = json.loads(result)
     res = makeWebhookResult(data)
@@ -85,7 +85,6 @@ def makeYqlQuery(req):
         return None
 
     return "Success"
-
 
 def makeWebhookResult(data):
     print("makeWebhookResult data:"+data)
