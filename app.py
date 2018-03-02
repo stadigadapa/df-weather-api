@@ -51,9 +51,9 @@ def webhook():
 
 def processRequest(req):
     print("Inside processRequest Request:"+req.get("result").get("action"))
-    if req.get("result").get("action") != "team":
+    if req.get("result").get("action") != "searchPatient":
         return {}
-    baseurl = "http://nflarrest.com/api/v1/team"
+    baseurl = "https://ttnmwdev3:10443/CCATSNJSPWebService/jaxrs/CCATSNJSPService/NJSPPatientSearchBO"
 	
     print("baseurl:"+baseurl)
     yql_query = makeYqlQuery(req)
@@ -61,6 +61,8 @@ def processRequest(req):
     if yql_query is None:
         return {}
 
+    # yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
+    
     result = urlopen(baseurl).read()
     print("result:"+result)
     data = json.loads(result)
@@ -72,12 +74,15 @@ def processRequest(req):
 def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
-    start_date = parameters.get("start_date")
-    end_date = parameters.get("end_date")
-    limit = parameters.get("limit")
-    star_pos = parameters.get("star_pos")	
+    city = parameters.get("geo-city")
+    njspUniqIdentifier = parameters.get("njspUniqIdentifier")
+    lastName = parameters.get("lastName")
+    firstName = parameters.get("firstName")
+    dateOfBirth = parameters.get("dateOfBirth")
+    ssn = parameters.get("ssn")
+    	
 	
-    if start_date is None:
+    if lastName is None:
         return None
 
     return "Success"
@@ -119,7 +124,7 @@ def makeWebhookResult(data):
         "displayText": speech,
         # "data": data,
         # "contextOut": [],
-        "source": "Movies"
+        "source": "df-weather-api"
     }
 
 
