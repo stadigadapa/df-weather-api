@@ -43,31 +43,23 @@ def webhook():
     res = processRequest(req)
 
     res = json.dumps(res, indent=4)
-    print(res)
+    # print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 
 
 def processRequest(req):
-    print("Inside processRequest Request:"+req.get("result").get("action"))
-    if req.get("result").get("action") != "searchPatient":
+    if req.get("result").get("action") != "yahooWeatherForecast":
         return {}
-    baseurl = "https://ttnmwdev3:10443/CCATSNJSPWebService/jaxrs/CCATSNJSPService/NJSPPatientSearchBO"
-	
-    print("baseurl:"+baseurl)
+    baseurl = "https://query.yahooapis.com/v1/public/yql?"
     yql_query = makeYqlQuery(req)
-    
     if yql_query is None:
         return {}
-
-    # yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-    
-    result = urlopen(baseurl).read()
-    print("result:"+result)
+    yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
+    result = urlopen(yql_url).read()
     data = json.loads(result)
     res = makeWebhookResult(data)
-    print("res:"+res)
     return res
 
 
@@ -75,20 +67,13 @@ def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
     city = parameters.get("geo-city")
-    njspUniqIdentifier = parameters.get("njspUniqIdentifier")
-    lastName = parameters.get("lastName")
-    firstName = parameters.get("firstName")
-    dateOfBirth = parameters.get("dateOfBirth")
-    ssn = parameters.get("ssn")
-    	
-	
-    if lastName is None:
+    if city is None:
         return None
 
-    return "Success"
+    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')"
+
 
 def makeWebhookResult(data):
-    print("makeWebhookResult data:"+data)
     query = data.get('query')
     if query is None:
         return {}
@@ -113,9 +98,9 @@ def makeWebhookResult(data):
 
     # print(json.dumps(item, indent=4))
 
-    #speech = "Today the weather in " + location.get('city') + ": " + condition.get('text') + \", And the temperature is " + condition.get('temp') + " " + units.get('temperature')
+    speech = "Today the weather in " + location.get('city') + ": " + condition.get('text') + \
+             ", And the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
-    speech = "Speech Output...................."
     print("Response:")
     print(speech)
 
@@ -124,7 +109,7 @@ def makeWebhookResult(data):
         "displayText": speech,
         # "data": data,
         # "contextOut": [],
-        "source": "df-weather-api"
+        "source": "apiai-weather-webhook-sample"
     }
 
 
